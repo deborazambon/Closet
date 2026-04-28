@@ -1,27 +1,3 @@
-// SONDA TEMPORÁRIA - APAGAR DEPOIS
-window.addEventListener('load', async () => {
-  try {
-    const req = indexedDB.open('closet-db'); // troca pelo nome real do DB se for outro
-    req.onsuccess = (e) => {
-      const db = e.target.result;
-      const stores = Array.from(db.objectStoreNames);
-      if (stores.length === 0) {
-        alert('SONDA: DB existe mas SEM object stores. Init nunca rodou direito.');
-        return;
-      }
-      const tx = db.transaction(stores[0], 'readonly');
-      const store = tx.objectStore(stores[0]);
-      const countReq = store.count();
-      countReq.onsuccess = () => {
-        alert('SONDA: stores=' + stores.join(',') + ' | count=' + countReq.result);
-      };
-      countReq.onerror = (err) => alert('SONDA erro count: ' + err.target.error);
-    };
-    req.onerror = (e) => alert('SONDA erro abrir DB: ' + e.target.error);
-    req.onupgradeneeded = () => alert('SONDA: DB foi RECRIADO (estava vazio ou sumiu).');
-  } catch(e) { alert('SONDA exception: ' + e.message); }
-});
-
 <!DOCTYPE html>
 <!-- saved from url=(0050)file:///C:/Users/debor/Downloads/closet_app_2.html -->
 <html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -1015,6 +991,31 @@ window.addEventListener('load', async () => {
 <div id="toast" class="toast">Look salvo</div>
 
 <script>
+  // SONDA TEMPORÁRIA - APAGAR DEPOIS
+window.addEventListener('load', async () => {
+  try {
+    const req = indexedDB.open('closet-db'); // troca pelo nome real do DB se for outro
+    req.onsuccess = (e) => {
+      const db = e.target.result;
+      const stores = Array.from(db.objectStoreNames);
+      if (stores.length === 0) {
+        alert('SONDA: DB existe mas SEM object stores. Init nunca rodou direito.');
+        return;
+      }
+      const tx = db.transaction(stores[0], 'readonly');
+      const store = tx.objectStore(stores[0]);
+      const countReq = store.count();
+      countReq.onsuccess = () => {
+        alert('SONDA: stores=' + stores.join(',') + ' | count=' + countReq.result);
+      };
+      countReq.onerror = (err) => alert('SONDA erro count: ' + err.target.error);
+    };
+    req.onerror = (e) => alert('SONDA erro abrir DB: ' + e.target.error);
+    req.onupgradeneeded = () => alert('SONDA: DB foi RECRIADO (estava vazio ou sumiu).');
+  } catch(e) { alert('SONDA exception: ' + e.message); }
+});
+
+
 // ============ CATÁLOGO DE PEÇAS ============
 const PECAS = {
   // TOPS (8)
