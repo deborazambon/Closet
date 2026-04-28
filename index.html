@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)file:///C:/Users/debor/Downloads/closet_app_2.html -->
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#3D2817">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Closet">
+<title>Closet • Débora</title>
+
+<link rel="manifest" href="data:application/manifest+json;charset=utf-8,{&quot;name&quot;:&quot;Closet %E2%80%94 D%C3%A9bora&quot;,&quot;short_name&quot;:&quot;Closet&quot;,&quot;description&quot;:&quot;Looks personalizados Soft Natural&quot;,&quot;start_url&quot;:&quot;./&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;%23FAF6F0&quot;,&quot;theme_color&quot;:&quot;%233D2817&quot;,&quot;orientation&quot;:&quot;portrait&quot;,&quot;icons&quot;:[{&quot;src&quot;:&quot;data:image/svg+xml;utf8,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22&gt;&lt;rect width=%22192%22 height=%22192%22 fill=%22%233D2817%22/&gt;&lt;text x=%2296%22 y=%22130%22 font-family=%22serif%22 font-size=%22120%22 font-weight=%22bold%22 fill=%22%23FECF23%22 text-anchor=%22middle%22&gt;C&lt;/text&gt;&lt;/svg&gt;&quot;,&quot;sizes&quot;:&quot;192x192&quot;,&quot;type&quot;:&quot;image/svg+xml&quot;}]}">
+
+<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 180 180&quot;&gt;&lt;rect width=&quot;180&quot; height=&quot;180&quot; fill=&quot;%233D2817&quot;/&gt;&lt;text x=&quot;90&quot; y=&quot;120&quot; font-family=&quot;serif&quot; font-size=&quot;110&quot; font-weight=&quot;bold&quot; fill=&quot;%23FECF23&quot; text-anchor=&quot;middle&quot;&gt;C&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./Closet • Débora_files/css2" rel="stylesheet">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --bg: #FAF6F0;
+    --bg-elevated: #F5EFE0;
+    --texto: #3D2817;
+    --texto-suave: #6B5443;
+    --destaque: #8B6F47;
+    --suave: #C4A484;
+    --profunda: #5C4033;
+    --linha: #D9CDB8;
+    --card: #F0E8DA;
+    --card-hover: #E8DBC0;
+    --acento: #C9876B;
+    --amarelo: #FECF23;
+    --bordo: #6B2737;
+
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+    --shadow-soft: 0 2px 12px rgba(60, 40, 23, 0.06);
+    --shadow-medium: 0 8px 32px rgba(60, 40, 23, 0.12);
+    --shadow-strong: 0 16px 48px rgba(60, 40, 23, 0.18);
+  }
+
+  html, body { overscroll-behavior: none; overflow-x: hidden; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--texto);
+    line-height: 1.5;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .serif {
+    font-family: var(--serif);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .app {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tela {
+    position: absolute;
+    inset: 0;
+    padding: 24px 24px 40px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tela.ativa { opacity: 1; pointer-events: auto; }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    margin-bottom: 32px;
+    gap: 8px;
+  }
+  .header-titulo {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--profunda);
+    letter-spacing: -0.02em;
+    flex: 1;
+  }
+  .header-titulo em { font-style: italic; color: var(--destaque); font-weight: 400; }
+
+  .header-acao {
+    background: var(--card);
+    border: 1px solid var(--linha);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--profunda);
+    font-size: 16px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .header-acao:hover { background: var(--card-hover); }
+  .header-acao:active { transform: scale(0.95); }
+
+  /* HOME */
+  .saudacao { margin-bottom: 8px; }
+  .saudacao-eyebrow {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--destaque);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .saudacao-titulo {
+    font-family: var(--serif);
+    font-size: 42px;
+    font-weight: 400;
+    color: var(--profunda);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 6px;
+  }
+  .saudacao-titulo em { font-style: italic; color: var(--destaque); }
+  .saudacao-data { font-size: 13px; color: var(--texto-suave); margin-bottom: 36px; }
+
+  .pergunta {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--profunda);
+    margin-bottom: 24px;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  .pergunta::after {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--destaque);
+    margin-top: 14px;
+  }
+
+  /* OCASIÕES */
+  .ocasioes { display: flex; flex-direction: column; gap: 12px; }
+  .ocasiao {
+    background: var(--card);
+    border: 1px solid var(--linha);
+    border-radius: 16px;
+    padding: 20px 24px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    text-align: left;
+    width: 100%;
+    font-family: var(--sans);
+    color: var(--texto);
+    position: relative;
+    overflow: hidden;
+  }
+  .ocasiao::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 60%, rgba(139, 111, 71, 0.08));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .ocasiao:hover { transform: translateY(-2px); box-shadow: var(--shadow-medium); }
+  .ocasiao:hover::before { opacity: 1; }
+  .ocasiao:active { transform: scale(0.98); }
+
+  .ocasiao-icone {
+    width: 56px;
+    height: 56px;
+    background: var(--bg);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+  .ocasiao-conteudo { flex: 1; }
+  .ocasiao-titulo {
+    font-family: var(--serif);
+    font-size: 21px;
+    color: var(--profunda);
+    font-weight: 500;
+    margin-bottom: 2px;
+    letter-spacing: -0.01em;
+  }
+  .ocasiao-desc { font-size: 12px; color: var(--texto-suave); letter-spacing: 0.02em; }
+  .ocasiao-seta {
+    color: var(--destaque);
+    font-size: 20px;
+    transition: transform 0.2s;
+    margin-left: 4px;
+  }
+  .ocasiao:hover .ocasiao-seta { transform: translateX(4px); }
+
+  /* AÇÃO CLOSET (no home) */
+  .acao-closet {
+    background: var(--profunda);
+    color: var(--bg);
+    border-radius: 16px;
+    padding: 18px 22px;
+    margin-top: 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: var(--sans);
+  }
+  .acao-closet:hover { background: #4a3329; transform: translateY(-1px); }
+  .acao-closet:active { transform: scale(0.98); }
+  .acao-closet-icone {
+    font-size: 24px;
+  }
+  .acao-closet-texto { flex: 1; }
+  .acao-closet-titulo {
+    font-family: var(--serif);
+    font-size: 18px;
+    margin-bottom: 2px;
+    letter-spacing: -0.01em;
+  }
+  .acao-closet-desc {
+    font-size: 11px;
+    opacity: 0.7;
+    letter-spacing: 0.5px;
+  }
+  .acao-closet-stats {
+    background: rgba(255,255,255,0.1);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  /* FILTROS */
+  .filtro-grupo { margin-bottom: 28px; }
+  .filtro-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--destaque);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .filtro-opcoes { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filtro-chip {
+    background: var(--card);
+    border: 1px solid var(--linha);
+    border-radius: 24px;
+    padding: 12px 18px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--texto);
+    font-family: var(--sans);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .filtro-chip:active { transform: scale(0.96); }
+  .filtro-chip.selecionado { background: var(--profunda); color: var(--bg); border-color: var(--profunda); }
+
+  .botao-principal {
+    background: var(--profunda);
+    color: var(--bg);
+    border: none;
+    width: 100%;
+    padding: 18px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+    font-family: var(--sans);
+    box-shadow: var(--shadow-medium);
+  }
+  .botao-principal:hover { background: #4a3329; transform: translateY(-1px); }
+  .botao-principal:active { transform: scale(0.98); }
+  .botao-principal:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .botao-secundario {
+    background: transparent;
+    color: var(--destaque);
+    border: 1px solid var(--linha);
+    width: 100%;
+    padding: 16px;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+    font-family: var(--sans);
+  }
+  .botao-secundario:hover { background: var(--card); }
+
+  .voltar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: var(--destaque);
+    font-size: 13px;
+    cursor: pointer;
+    margin-bottom: 24px;
+    padding: 8px 0;
+    font-family: var(--sans);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .voltar:active { transform: translateX(-2px); }
+
+  /* LOOK */
+  .look-eyebrow {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--destaque);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .look-titulo {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--profunda);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .look-titulo em { font-style: italic; color: var(--destaque); }
+  .look-meta {
+    font-size: 12px;
+    color: var(--texto-suave);
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+  }
+
+  /* PEÇA NO LOOK */
+  .peca {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    animation: slideUp 0.4s ease backwards;
+  }
+  .peca:nth-child(1) { animation-delay: 0.05s; }
+  .peca:nth-child(2) { animation-delay: 0.12s; }
+  .peca:nth-child(3) { animation-delay: 0.19s; }
+  .peca:nth-child(4) { animation-delay: 0.26s; }
+  .peca:nth-child(5) { animation-delay: 0.33s; }
+  .peca:nth-child(6) { animation-delay: 0.40s; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .peca-visual {
+    width: 64px;
+    height: 80px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .peca-visual.com-foto {
+    background: var(--bg-elevated);
+  }
+  .peca-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .peca-visual svg { width: 100%; height: 100%; }
+
+  .peca-info { flex: 1; min-width: 0; }
+  .peca-categoria {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--destaque);
+    text-transform: uppercase;
+    margin-bottom: 2px;
+    font-weight: 600;
+  }
+  .peca-nome {
+    font-family: var(--serif);
+    font-size: 17px;
+    color: var(--profunda);
+    font-weight: 500;
+    margin-bottom: 4px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .peca-marca { font-size: 11px; color: var(--texto-suave); letter-spacing: 0.3px; }
+  .peca-marca strong { color: var(--destaque); font-weight: 600; }
+
+  .peca-link {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--destaque);
+    text-decoration: none;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+  }
+  .peca-link:hover {
+    background: var(--destaque);
+    color: var(--bg);
+    transform: rotate(45deg);
+  }
+
+  .ancora-marker {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: var(--amarelo);
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--profunda);
+    font-weight: 800;
+    z-index: 2;
+  }
+
+  /* AÇÕES LOOK */
+  .acoes-look {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+    margin-bottom: 16px;
+  }
+  .acoes-look button {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: var(--sans);
+  }
+  .btn-outro { background: var(--profunda); color: var(--bg); }
+  .btn-outro:hover { background: #4a3329; }
+  .btn-favoritar {
+    background: var(--card);
+    color: var(--profunda);
+    border: 1px solid var(--linha);
+  }
+  .btn-favoritar:hover { background: var(--card-hover); }
+  .btn-favoritar.salvo { background: var(--bordo); color: var(--bg); border-color: var(--bordo); }
+
+  .conceito-look {
+    background: var(--bg-elevated);
+    padding: 16px 18px;
+    border-radius: 12px;
+    border-left: 3px solid var(--destaque);
+    margin-top: 16px;
+  }
+  .conceito-look-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--destaque);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .conceito-look-texto {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--profunda);
+    line-height: 1.4;
+    font-style: italic;
+    letter-spacing: -0.01em;
+  }
+
+  /* MEU CLOSET (grid de peças) */
+  .closet-stats {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .closet-stat {
+    flex: 1;
+    background: var(--card);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+  }
+  .closet-stat-num {
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--profunda);
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .closet-stat-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--destaque);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .closet-categoria-titulo {
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--profunda);
+    margin: 24px 0 12px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .closet-categoria-titulo:first-child { margin-top: 0; }
+  .closet-categoria-titulo span {
+    font-size: 12px;
+    color: var(--destaque);
+    margin-left: 6px;
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  .closet-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .closet-item {
+    aspect-ratio: 3/4;
+    background: var(--card);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .closet-item:hover { transform: scale(1.03); box-shadow: var(--shadow-soft); }
+  .closet-item:active { transform: scale(0.97); }
+  .closet-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .closet-item svg { width: 80%; height: 80%; }
+  .closet-item .item-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(60,40,23,0.9), transparent);
+    padding: 8px 8px 6px;
+    color: white;
+    font-size: 10px;
+    line-height: 1.2;
+  }
+  .closet-item .sem-foto-overlay {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: rgba(255,255,255,0.9);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--destaque);
+  }
+
+  /* DETALHE DA PEÇA (modal-like tela) */
+  .peca-detalhe-foto {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--card);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .peca-detalhe-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .peca-detalhe-foto svg {
+    width: 60%;
+    height: 60%;
+  }
+
+  .peca-detalhe-info {
+    margin-bottom: 24px;
+  }
+  .peca-detalhe-categoria {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--destaque);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .peca-detalhe-nome {
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--profunda);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .peca-detalhe-marca {
+    font-size: 13px;
+    color: var(--texto-suave);
+  }
+  .peca-detalhe-marca strong { color: var(--destaque); font-weight: 600; }
+
+  .acoes-peca {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .upload-zone {
+    width: 100%;
+    aspect-ratio: 3/4;
+    border: 2px dashed var(--suave);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--bg-elevated);
+    color: var(--destaque);
+    margin-bottom: 16px;
+  }
+  .upload-zone:hover {
+    border-color: var(--destaque);
+    background: var(--card);
+  }
+  .upload-zone-icone {
+    font-size: 40px;
+    margin-bottom: 12px;
+  }
+  .upload-zone-texto {
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--profunda);
+    margin-bottom: 4px;
+  }
+  .upload-zone-desc {
+    font-size: 11px;
+    color: var(--texto-suave);
+    letter-spacing: 0.5px;
+    padding: 0 20px;
+    text-align: center;
+  }
+
+  /* FAVORITOS */
+  .vazio {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--texto-suave);
+  }
+  .vazio-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.5; }
+  .vazio-titulo {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--profunda);
+    margin-bottom: 8px;
+  }
+  .vazio-desc { font-size: 13px; }
+
+  .favorito-item {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .favorito-item:hover { background: var(--card-hover); }
+  .favorito-titulo {
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--profunda);
+  }
+  .favorito-meta { font-size: 11px; color: var(--texto-suave); margin-top: 2px; letter-spacing: 0.5px; }
+  .favorito-remover {
+    background: none;
+    border: none;
+    color: var(--bordo);
+    cursor: pointer;
+    padding: 8px;
+    font-size: 16px;
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--profunda);
+    color: var(--bg);
+    padding: 14px 22px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: transform 0.3s ease;
+    box-shadow: var(--shadow-strong);
+    z-index: 100;
+  }
+  .toast.visivel { transform: translateX(-50%) translateY(0); }
+
+  /* INSTALAR */
+  .install-banner {
+    background: var(--profunda);
+    color: var(--bg);
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    display: none;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .install-banner.visivel { display: flex; }
+  .install-banner button {
+    background: var(--amarelo);
+    color: var(--profunda);
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    font-family: var(--sans);
+  }
+  .install-banner .fechar-banner {
+    background: transparent;
+    color: var(--bg);
+    padding: 4px;
+    font-size: 16px;
+  }
+
+  input[type=file] { display: none; }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<!-- HOME -->
+<div id="tela-home" class="tela ativa">
+  <header class="header">
+    <div class="header-titulo">Closet<em>.</em></div>
+    <button class="header-acao" onclick="abrirFavoritos()" aria-label="Favoritos">♡</button>
+  </header>
+
+  <div id="install-banner" class="install-banner">
+    <div style="flex:1">
+      <strong>Instala como app</strong><br>
+      <span style="opacity:0.85">Acesso rápido na tela inicial</span>
+    </div>
+    <button onclick="instalarApp()">Instalar</button>
+    <button class="fechar-banner" onclick="fecharBanner()">×</button>
+  </div>
+
+  <div class="saudacao">
+    <div class="saudacao-eyebrow" id="saudacao-eyebrow">Bom dia</div>
+    <h1 class="saudacao-titulo">Vamos<br><em>vestir o dia</em>?</h1>
+    <div class="saudacao-data" id="data-hoje">Segunda-feira, 27 de abril</div>
+  </div>
+
+  <div class="pergunta">Qual a ocasião?</div>
+
+  <div class="ocasioes">
+    <button class="ocasiao" onclick="selecionarOcasiao(&#39;trabalho&#39;)">
+      <div class="ocasiao-icone">💼</div>
+      <div class="ocasiao-conteudo">
+        <div class="ocasiao-titulo">Trabalho</div>
+        <div class="ocasiao-desc">Dia normal no escritório</div>
+      </div>
+      <div class="ocasiao-seta">→</div>
+    </button>
+    <button class="ocasiao" onclick="selecionarOcasiao(&#39;reuniao&#39;)">
+      <div class="ocasiao-icone">🤝</div>
+      <div class="ocasiao-conteudo">
+        <div class="ocasiao-titulo">Reunião</div>
+        <div class="ocasiao-desc">Autoridade e presença</div>
+      </div>
+      <div class="ocasiao-seta">→</div>
+    </button>
+    <button class="ocasiao" onclick="selecionarOcasiao(&#39;pessoal&#39;)">
+      <div class="ocasiao-icone">☕</div>
+      <div class="ocasiao-conteudo">
+        <div class="ocasiao-titulo">Pessoal</div>
+        <div class="ocasiao-desc">Compromissos do dia</div>
+      </div>
+      <div class="ocasiao-seta">→</div>
+    </button>
+    <button class="ocasiao" onclick="selecionarOcasiao(&#39;passeio&#39;)">
+      <div class="ocasiao-icone">🌳</div>
+      <div class="ocasiao-conteudo">
+        <div class="ocasiao-titulo">Passeio</div>
+        <div class="ocasiao-desc">Praça, café, fim de semana</div>
+      </div>
+      <div class="ocasiao-seta">→</div>
+    </button>
+    <button class="ocasiao" onclick="selecionarOcasiao(&#39;academia&#39;)">
+      <div class="ocasiao-icone">🏃‍♀️</div>
+      <div class="ocasiao-conteudo">
+        <div class="ocasiao-titulo">Academia</div>
+        <div class="ocasiao-desc">Treino e atividade física</div>
+      </div>
+      <div class="ocasiao-seta">→</div>
+    </button>
+  </div>
+
+  <button class="acao-closet" onclick="abrirCloset()">
+    <div class="acao-closet-icone">📸</div>
+    <div class="acao-closet-texto">
+      <div class="acao-closet-titulo">Meu Closet</div>
+      <div class="acao-closet-desc">Adicione fotos das suas peças</div>
+    </div>
+    <div class="acao-closet-stats" id="stat-fotos">1/40</div>
+  </button>
+</div>
+
+<!-- FILTROS -->
+<div id="tela-filtros" class="tela">
+  <button class="voltar" onclick="voltarHome()">← Voltar</button>
+  <div class="look-eyebrow" id="filtros-ocasiao-label">Trabalho</div>
+  <h1 class="look-titulo">Como está<br><em>o dia hoje?</em></h1>
+  <div class="look-meta">Ajuste rápido — leva 5 segundos</div>
+
+  <div class="filtro-grupo" style="margin-top: 28px;">
+    <div class="filtro-label">Clima</div>
+    <div class="filtro-opcoes">
+      <button class="filtro-chip" data-filtro="clima" data-valor="frio">❄️ Frio</button>
+      <button class="filtro-chip selecionado" data-filtro="clima" data-valor="ameno">🍃 Ameno</button>
+      <button class="filtro-chip" data-filtro="clima" data-valor="calor">☀️ Calor</button>
+      <button class="filtro-chip" data-filtro="clima" data-valor="chuva">🌧️ Chuva</button>
+    </div>
+  </div>
+
+  <div class="filtro-grupo">
+    <div class="filtro-label">Estilo do dia</div>
+    <div class="filtro-opcoes">
+      <button class="filtro-chip" data-filtro="estilo" data-valor="formal">Mais formal</button>
+      <button class="filtro-chip selecionado" data-filtro="estilo" data-valor="medio">Equilibrado</button>
+      <button class="filtro-chip" data-filtro="estilo" data-valor="casual">Mais casual</button>
+    </div>
+  </div>
+
+  <button class="botao-principal" onclick="gerarLook()">Gerar look</button>
+  <button class="botao-secundario" onclick="pularFiltros()">Pular — surpreenda</button>
+</div>
+
+<!-- LOOK -->
+<div id="tela-look" class="tela">
+  <button class="voltar" onclick="voltarFiltros()">← Mudar ocasião</button>
+  <div class="look-eyebrow" id="look-ocasiao">Trabalho</div>
+  <h1 class="look-titulo" id="look-titulo">Look <em>do dia</em></h1>
+  <div class="look-meta" id="look-meta">Ameno • Equilibrado</div>
+  <div id="look-pecas"></div>
+  <div class="conceito-look">
+    <div class="conceito-look-label">Por que esse look</div>
+    <div class="conceito-look-texto" id="look-conceito">—</div>
+  </div>
+  <div class="acoes-look">
+    <button class="btn-outro" onclick="gerarLook()">↻ Outro look</button>
+    <button class="btn-favoritar" id="btn-favoritar" onclick="salvarLook()">♡ Salvar</button>
+  </div>
+</div>
+
+<!-- FAVORITOS -->
+<div id="tela-favoritos" class="tela">
+  <button class="voltar" onclick="voltarHome()">← Início</button>
+  <h1 class="look-titulo" style="margin-bottom: 24px;">Looks <em>salvos</em></h1>
+  <div id="lista-favoritos">
+      <div class="vazio">
+        <div class="vazio-icon">♡</div>
+        <div class="vazio-titulo">Nenhum look salvo ainda</div>
+        <div class="vazio-desc">Gere um look e toque em "Salvar" para guardar aqui</div>
+      </div>
+    </div>
+</div>
+
+<!-- MEU CLOSET -->
+<div id="tela-closet" class="tela">
+  <button class="voltar" onclick="voltarHome()">← Início</button>
+  <h1 class="look-titulo">Meu <em>Closet</em></h1>
+  <div class="look-meta" style="margin-bottom: 16px;">Toque em qualquer peça para adicionar foto</div>
+
+  <div class="closet-stats">
+    <div class="closet-stat">
+      <div class="closet-stat-num" id="stat-total">1</div>
+      <div class="closet-stat-label">Com foto</div>
+    </div>
+    <div class="closet-stat">
+      <div class="closet-stat-num" id="stat-restante">39</div>
+      <div class="closet-stat-label">Sem foto</div>
+    </div>
+  </div>
+
+  <div id="closet-conteudo"></div>
+</div>
+
+<!-- DETALHE PEÇA -->
+<div id="tela-peca" class="tela">
+  <button class="voltar" onclick="voltarCloset()">← Closet</button>
+
+  <div id="peca-detalhe-conteudo"></div>
+
+  <input type="file" id="upload-input" accept="image/*" onchange="processarUpload(event)">
+</div>
+
+</div>
+
+<div id="toast" class="toast">Look salvo</div>
+
+<script>
+// ============ CATÁLOGO DE PEÇAS ============
+const PECAS = {
+  // TOPS (8)
+  t1: { cat: 'Top', nome: 'Blusa V oliva profundo', marca: 'DAZY', cor: '#5D5D3C', tipo: 'blusa', link: 'https://br.shein.com/pdsearch/DAZY%20blusa%20decote%20V%20verde%20oliva%20plus/' },
+  t2: { cat: 'Top', nome: 'Blusa terracota fluida', marca: 'DAZY', cor: '#C9876B', tipo: 'blusa', link: 'https://br.shein.com/pdsearch/DAZY%20blusa%20terracota%20fluida%20plus/' },
+  t3: { cat: 'Top', nome: 'Camisa linho bege', marca: 'DAZY', cor: '#D9C7A7', tipo: 'camisa', link: 'https://br.shein.com/pdsearch/DAZY%20camisa%20linho%20bege%20plus/' },
+  t4: { cat: 'Top', nome: 'Blusa verde musgo', marca: 'DAZY', cor: '#3E4F3A', tipo: 'blusa', link: 'https://br.shein.com/pdsearch/DAZY%20blusa%20verde%20musgo%20manga%20plus/' },
+  t5: { cat: 'Top', nome: 'T-shirt marrom premium', marca: 'DAZY', cor: '#5C4033', tipo: 'tshirt', link: 'https://br.shein.com/pdsearch/DAZY%20camiseta%20marrom%20algod%C3%A3o%20decote%20V%20plus/' },
+  t6: { cat: 'Top', nome: 'Blusa creme quente V', marca: 'DAZY', cor: '#F5EFE0', tipo: 'blusa', link: 'https://br.shein.com/pdsearch/DAZY%20blusa%20creme%20decote%20V%20plus/' },
+  t7: { cat: 'Top', nome: 'Camisa areia oversized', marca: 'DAZY', cor: '#C4A484', tipo: 'camisa', link: 'https://br.shein.com/pdsearch/DAZY%20camisa%20oversized%20bege%20areia%20plus/' },
+  t8: { cat: 'Top', nome: 'Blusa manga ampla', marca: 'EZwear Curve', cor: '#A89274', tipo: 'blusa', link: 'https://br.shein.com/pdsearch/EZwear%20Curve%20blusa%20manga%20ampla%20fluida%20plus/' },
+
+  // CALÇAS (6)
+  c1: { cat: 'Calça', nome: 'Calça reta bege', marca: 'DAZY', cor: '#D9C7A7', tipo: 'calca', link: 'https://br.shein.com/pdsearch/DAZY%20cal%C3%A7a%20alfaiataria%20reta%20bege%20cintura%20alta%20plus/' },
+  c2: { cat: 'Calça', nome: 'Calça oliva', marca: 'DAZY', cor: '#5D5D3C', tipo: 'calca', link: 'https://br.shein.com/pdsearch/DAZY%20cal%C3%A7a%20alfaiataria%20verde%20oliva%20plus/' },
+  c3: { cat: 'Calça', nome: 'Pantalona marrom', marca: 'BIZwear', cor: '#5C4033', tipo: 'pantalona', link: 'https://br.shein.com/pdsearch/BIZwear%20pantalona%20marrom%20cintura%20alta%20plus/' },
+  c4: { cat: 'Calça', nome: 'Calça preta suave', marca: 'DAZY', cor: '#3D2817', tipo: 'calca', link: 'https://br.shein.com/pdsearch/DAZY%20cal%C3%A7a%20alfaiataria%20preta%20viscose%20plus/' },
+  c5: { cat: 'Calça', nome: 'Calça cenoura', marca: 'BIZwear', cor: '#A8845C', tipo: 'calca', link: 'https://br.shein.com/pdsearch/BIZwear%20cal%C3%A7a%20cenoura%20cintura%20alta%20plus/' },
+  c6: { cat: 'Calça', nome: 'Wide leg bege', marca: 'DAZY', cor: '#D9C7A7', tipo: 'pantalona', link: 'https://br.shein.com/pdsearch/DAZY%20cal%C3%A7a%20wide%20leg%20bege%20cintura%20alta%20plus/' },
+
+  // VESTIDOS (4)
+  v1: { cat: 'Vestido', nome: 'Vestido envelope terracota', marca: 'MOTF CURVE', cor: '#C9876B', tipo: 'vestido', ancora: true, link: 'https://br.shein.com/pdsearch/MOTF%20CURVE%20vestido%20envelope%20terracota%20midi/' },
+  v2: { cat: 'Vestido', nome: 'Vestido midi oliva', marca: 'Cosmina', cor: '#5D5D3C', tipo: 'vestido', link: 'https://br.shein.com/pdsearch/Cosmina%20vestido%20midi%20verde%20oliva%20plus/' },
+  v3: { cat: 'Vestido', nome: 'Vestido marrom decote V', marca: 'MOTF CURVE', cor: '#7A5C4A', tipo: 'vestido', link: 'https://br.shein.com/pdsearch/MOTF%20CURVE%20vestido%20marrom%20decote%20V%20midi/' },
+  v4: { cat: 'Vestido', nome: 'Vestido bege quente', marca: 'Cosmina', cor: '#C4A484', tipo: 'vestido', link: 'https://br.shein.com/pdsearch/Cosmina%20vestido%20bege%20camisaria%20midi%20plus/' },
+
+  // SOBREPOSIÇÕES (4)
+  ter1: { cat: 'Sobreposição', nome: 'Blazer bege estruturado', marca: 'MOTF CURVE', cor: '#C4A484', tipo: 'blazer', ancora: true, link: 'https://br.shein.com/pdsearch/MOTF%20CURVE%20blazer%20bege%20estruturado%20oversized%20plus/' },
+  ter2: { cat: 'Sobreposição', nome: 'Blazer oliva', marca: 'MOTF CURVE', cor: '#5D5D3C', tipo: 'blazer', link: 'https://br.shein.com/pdsearch/MOTF%20CURVE%20blazer%20verde%20oliva%20alfaiataria%20plus/' },
+  ter3: { cat: 'Sobreposição', nome: 'Kimono marrom', marca: 'Anewsta', cor: '#7A5C4A', tipo: 'kimono', link: 'https://br.shein.com/pdsearch/Anewsta%20kimono%20marrom%20estruturado%20feminino%20plus/' },
+  ter4: { cat: 'Sobreposição', nome: 'Camisa longa aberta', marca: 'MOTF CURVE', cor: '#D9C7A7', tipo: 'camisaLonga', link: 'https://br.shein.com/pdsearch/MOTF%20CURVE%20camisa%20longa%20aberta%20colete%20plus/' },
+
+  // JEANS (3)
+  j1: { cat: 'Jeans', nome: 'Jeans wide leg médio', marca: 'EZwear Curve', cor: '#7A8AA0', tipo: 'jeans', link: 'https://br.shein.com/pdsearch/EZwear%20Curve%20jeans%20wide%20leg%20lavagem%20m%C3%A9dia%20plus/' },
+  j2: { cat: 'Jeans', nome: 'Jeans wide preto', marca: 'EZwear Curve', cor: '#3D3F45', tipo: 'jeans', link: 'https://br.shein.com/pdsearch/EZwear%20Curve%20jeans%20wide%20leg%20preto%20cintura%20alta%20plus/' },
+  j3: { cat: 'Jeans', nome: 'Jeans flare escuro', marca: 'EZwear Curve', cor: '#3F4F5C', tipo: 'jeans', link: 'https://br.shein.com/pdsearch/EZwear%20Curve%20jeans%20flare%20escuro%20cintura%20alta%20plus/' },
+
+  // TRICÔS (3)
+  tr1: { cat: 'Tricô', nome: 'Tricô camel decote V', marca: 'MOTF CURVE', cor: '#D9C7A7', tipo: 'trico', ancora: true, link: 'https://br.shein.com/pdsearch/MOTF%20CURVE%20tric%C3%B4%20cashmere%20camel%20decote%20V%20plus/' },
+  tr2: { cat: 'Tricô', nome: 'Tricô oversized creme', marca: 'Knit Mix', cor: '#F5EFE0', tipo: 'trico', link: 'https://br.shein.com/pdsearch/Knit%20Mix%20tric%C3%B4%20oversized%20creme%20plus/' },
+  tr3: { cat: 'Tricô', nome: 'Cardigan longo sálvia', marca: 'Knit Mix', cor: '#9CA68C', tipo: 'cardigan', link: 'https://br.shein.com/pdsearch/Knit%20Mix%20cardigan%20longo%20verde%20s%C3%A1lvia%20plus/' },
+
+  // ACESSÓRIOS (2)
+  a1: { cat: 'Bolsa', nome: 'Bolsa estruturada caramelo', marca: 'MOTF', cor: '#A8845C', tipo: 'bolsa', ancora: true, link: 'https://br.shein.com/pdsearch/MOTF%20bolsa%20estruturada%20caramelo%20m%C3%A9dia%20couro/' },
+  a2: { cat: 'Cinto', nome: 'Cinto largo marrom', marca: 'MOTF', cor: '#5C4033', tipo: 'cinto', link: 'https://br.shein.com/pdsearch/MOTF%20cinto%20largo%20marrom%20couro%205cm%20feminino/' },
+
+  // SAPATOS (4)
+  sap_mocassim: { cat: 'Sapato', nome: 'Mocassim caramelo', marca: 'MOTF', cor: '#A8845C', tipo: 'sapato', link: 'https://br.shein.com/pdsearch/MOTF%20mocassim%20caramelo%20feminino/' },
+  sap_tenis: { cat: 'Sapato', nome: 'Tênis branco minimalista', marca: 'MOTF', cor: '#F5EFE0', tipo: 'tenis', link: 'https://br.shein.com/pdsearch/MOTF%20t%C3%AAnis%20branco%20minimalista%20feminino/' },
+  sap_bota: { cat: 'Sapato', nome: 'Bota cano curto marrom', marca: 'MOTF', cor: '#5C4033', tipo: 'bota', link: 'https://br.shein.com/pdsearch/MOTF%20bota%20cano%20curto%20marrom%20feminina/' },
+  sap_sandalia: { cat: 'Sapato', nome: 'Sandália festa bronze', marca: 'MOTF', cor: '#8B7355', tipo: 'sandalia', link: 'https://br.shein.com/pdsearch/MOTF%20sand%C3%A1lia%20bronze%20salto%20bloco%20festa/' },
+
+  // ACADEMIA (5)
+  ten_treino: { cat: 'Tênis', nome: 'Tênis treino preto', marca: 'Glowmode', cor: '#3D3F45', tipo: 'tenis', link: 'https://br.shein.com/pdsearch/Glowmode%20t%C3%AAnis%20treino%20feminino%20preto/' },
+  legg_treino: { cat: 'Legging', nome: 'Legging cintura alta preta', marca: 'Glowmode', cor: '#3D2817', tipo: 'legging', link: 'https://br.shein.com/pdsearch/Glowmode%20legging%20cintura%20alta%20plus/' },
+  legg_oliva: { cat: 'Legging', nome: 'Legging oliva', marca: 'Glowmode', cor: '#5D5D3C', tipo: 'legging', link: 'https://br.shein.com/pdsearch/Glowmode%20legging%20oliva%20plus/' },
+  top_treino: { cat: 'Top esportivo', nome: 'Top esportivo neutro', marca: 'Glowmode', cor: '#A89274', tipo: 'topesportivo', link: 'https://br.shein.com/pdsearch/Glowmode%20top%20esportivo%20bege%20plus/' },
+  top_treino_oliva: { cat: 'Top esportivo', nome: 'Top esportivo oliva', marca: 'Glowmode', cor: '#5D5D3C', tipo: 'topesportivo', link: 'https://br.shein.com/pdsearch/Glowmode%20top%20esportivo%20verde%20plus/' },
+  jaq_treino: { cat: 'Sobreposição', nome: 'Jaqueta corta-vento', marca: 'Glowmode', cor: '#3D3F45', tipo: 'jaquetaTreino', link: 'https://br.shein.com/pdsearch/Glowmode%20jaqueta%20corta%20vento%20feminina%20plus/' },
+};
+
+const TOTAL_PECAS = Object.keys(PECAS).length;
+
+// ============ LOOKS ============
+const LOOKS = {
+  trabalho: {
+    formal: {
+      frio: [
+        { titulo: "Autoridade silenciosa", pecas: ['ter1', 't6', 'c4', 'sap_mocassim', 'a1'], conceito: "Blazer bege + blusa creme + calça preta. Quiet luxury para reunião com franqueado." },
+        { titulo: "Marrom estruturado", pecas: ['ter3', 't5', 'c1', 'sap_bota', 'a1'], conceito: "Kimono marrom como peça-âncora. Autoridade sem rigidez." },
+        { titulo: "Comando neutro", pecas: ['ter2', 't6', 'c4', 'sap_mocassim', 'a1', 'a2'], conceito: "Blazer oliva sobre calça preta. Cinto marca cintura — silhueta Soft Natural." },
+      ],
+      ameno: [
+        { titulo: "Camel + chocolate", pecas: ['ter1', 't5', 'c1', 'sap_mocassim', 'a1'], conceito: "Blazer bege + t-shirt marrom + calça reta bege. Combinação atemporal." },
+        { titulo: "Pantalona presença", pecas: ['ter1', 't6', 'c3', 'sap_mocassim', 'a1', 'a2'], conceito: "Pantalona marrom + blazer bege + cinto. Movimento que valoriza Soft Natural." },
+        { titulo: "Oliva editorial", pecas: ['ter2', 't6', 'c1', 'sap_mocassim', 'a1'], conceito: "Blazer oliva + creme + bege. Paleta Outono Suave em harmonia." },
+      ],
+      calor: [
+        { titulo: "Linho clean", pecas: ['t3', 'c1', 'sap_mocassim', 'a1', 'a2'], conceito: "Camisa linho bege com cinto marca cintura. Frescor com presença." },
+        { titulo: "Wide leg fluido", pecas: ['t3', 'c6', 'sap_mocassim', 'a1'], conceito: "Linho com wide leg bege. Caimento que não aperta no calor." },
+        { titulo: "Verde institucional", pecas: ['t1', 'c1', 'sap_mocassim', 'a1', 'a2'], conceito: "Blusa V oliva + calça reta bege. Decote V alonga tronco." },
+      ],
+      chuva: [
+        { titulo: "Defesa elegante", pecas: ['ter1', 't6', 'c4', 'sap_bota', 'a1'], conceito: "Blazer + bota baixa + calça preta. Bota protege e mantém autoridade." },
+        { titulo: "Marrom impermeável", pecas: ['ter3', 't5', 'c3', 'sap_bota', 'a1'], conceito: "Kimono marrom + pantalona + bota. Camadas para enfrentar o dia." },
+      ],
+    },
+    medio: {
+      frio: [
+        { titulo: "Tricô V autoridade", pecas: ['tr1', 'c4', 'sap_mocassim', 'a1', 'a2'], conceito: "Tricô camel sobre calça preta + cinto. Decote V Soft Natural perfeito." },
+        { titulo: "Cardigan longo", pecas: ['tr3', 't6', 'c1', 'sap_mocassim', 'a1'], conceito: "Cardigan sálvia alonga silhueta. Acento de cor da paleta." },
+        { titulo: "Camadas mornas", pecas: ['tr2', 'c3', 'sap_bota', 'a1'], conceito: "Tricô oversized creme + pantalona marrom. Conforto que projeta calma." },
+      ],
+      ameno: [
+        { titulo: "Bege sobre bege", pecas: ['t3', 'c1', 'ter4', 'sap_mocassim', 'a1', 'a2'], conceito: "Camisa linho + calça bege + camisa longa aberta. Tom-on-tom Outono Suave." },
+        { titulo: "Decote V terracota", pecas: ['t2', 'c1', 'sap_mocassim', 'a1', 'a2'], conceito: "Blusa terracota + bege. Acento de cor que não compete com autoridade." },
+        { titulo: "Verde profundo", pecas: ['t4', 'c1', 'sap_mocassim', 'a1', 'a2'], conceito: "Verde musgo + bege + cinto. Presença discreta." },
+      ],
+      calor: [
+        { titulo: "Linho leve", pecas: ['t3', 'c6', 'sap_mocassim', 'a1'], conceito: "Camisa linho oversized + wide leg. Caimento solto que respira." },
+        { titulo: "Manga ampla", pecas: ['t8', 'c1', 'sap_mocassim', 'a1', 'a2'], conceito: "Blusa manga ampla suave + reta bege. Movimento sem peso." },
+        { titulo: "T-shirt elevada", pecas: ['t5', 'c5', 'sap_mocassim', 'a1', 'a2'], conceito: "T-shirt marrom + cenoura. Casual sofisticado." },
+      ],
+      chuva: [
+        { titulo: "Tricô + bota", pecas: ['tr1', 'c4', 'sap_bota', 'a1'], conceito: "Tricô camel + calça preta + bota. Defesa contra umidade." },
+      ],
+    },
+    casual: {
+      frio: [
+        { titulo: "Tricô + jeans", pecas: ['tr2', 'j1', 'sap_mocassim', 'a1'], conceito: "Tricô oversized + jeans wide. Casual que não desce de nível." },
+        { titulo: "Cardigan jeans", pecas: ['tr3', 't5', 'j1', 'sap_tenis', 'a1'], conceito: "Cardigan sálvia + t-shirt marrom + jeans. Camadas de fim de semana." },
+      ],
+      ameno: [
+        { titulo: "Camisa + jeans", pecas: ['t3', 'j1', 'sap_tenis', 'a1', 'a2'], conceito: "Linho bege + jeans wide. Combinação casual atemporal." },
+        { titulo: "Areia oversized", pecas: ['t7', 'j2', 'sap_tenis', 'a1'], conceito: "Camisa areia oversized + jeans preto. Caimento solto perfeito Soft Natural." },
+      ],
+      calor: [
+        { titulo: "Verão fluido", pecas: ['t8', 'j1', 'sap_sandalia', 'a1'], conceito: "Manga ampla + jeans wide. Movimento e frescor." },
+      ],
+      chuva: [
+        { titulo: "Bota casual", pecas: ['t3', 'j2', 'sap_bota', 'a1'], conceito: "Linho + jeans escuro + bota. Casual de chuva." },
+      ],
+    },
+  },
+  reuniao: {
+    formal: {
+      frio: [
+        { titulo: "Comando vestido", pecas: ['v3', 'ter1', 'sap_mocassim', 'a1', 'a2'], conceito: "Vestido marrom V + blazer bege. Autoridade visual em uma peça-âncora." },
+        { titulo: "Wrap dress + blazer", pecas: ['v1', 'ter2', 'sap_mocassim', 'a1'], conceito: "Vestido envelope terracota + blazer oliva. Soft Natural perfeito." },
+        { titulo: "Vestido oliva blazer", pecas: ['v2', 'ter1', 'sap_mocassim', 'a1'], conceito: "Vestido midi oliva + blazer bege. Paleta Outono em harmonia." },
+      ],
+      ameno: [
+        { titulo: "Wrap dress sozinho", pecas: ['v1', 'sap_mocassim', 'a1', 'a2'], conceito: "Vestido envelope terracota com cinto à mostra. Look completo em 1 peça." },
+        { titulo: "Pantalona presença", pecas: ['ter1', 't6', 'c3', 'sap_mocassim', 'a1', 'a2'], conceito: "Pantalona + blazer + cinto. Wide leg que comanda." },
+        { titulo: "Vestido bege envelope", pecas: ['v4', 'sap_mocassim', 'a1', 'a2'], conceito: "Vestido bege + cinto + bolsa. Soft Natural autoridade quente." },
+      ],
+      calor: [
+        { titulo: "Vestido oliva fluido", pecas: ['v2', 'sap_mocassim', 'a1'], conceito: "Vestido midi oliva. Frescor com autoridade institucional." },
+        { titulo: "Vestido envelope", pecas: ['v1', 'sap_mocassim', 'a1', 'a2'], conceito: "Wrap dress terracota. Decote V + cintura marcada = silhueta-alvo." },
+      ],
+      chuva: [
+        { titulo: "Vestido + bota", pecas: ['v3', 'ter1', 'sap_bota', 'a1'], conceito: "Vestido marrom + blazer + bota. Look de comando em dia molhado." },
+      ],
+    },
+    medio: {
+      frio: [
+        { titulo: "Tricô + alfaiataria", pecas: ['tr1', 'c4', 'ter2', 'sap_mocassim', 'a1', 'a2'], conceito: "Tricô camel + calça preta + blazer oliva + cinto. Camadas de presença." },
+      ],
+      ameno: [
+        { titulo: "Vestido camisa", pecas: ['v4', 'sap_mocassim', 'a1', 'a2'], conceito: "Vestido bege quente + cinto + bolsa. Autoridade descomplicada." },
+      ],
+      calor: [
+        { titulo: "Vestido leve", pecas: ['v2', 'sap_mocassim', 'a1'], conceito: "Vestido midi oliva. Para reunião quente — autoridade que respira." },
+      ],
+    },
+  },
+  pessoal: {
+    medio: {
+      frio: [
+        { titulo: "Confortável elegante", pecas: ['tr2', 'j1', 'sap_mocassim', 'a1'], conceito: "Tricô oversized creme + jeans + bolsa. Resolver compromissos com estilo." },
+        { titulo: "Camadas suaves", pecas: ['tr3', 't5', 'j1', 'sap_tenis', 'a1'], conceito: "Cardigan sálvia sobre t-shirt + jeans. Acento de cor sem rigidez." },
+      ],
+      ameno: [
+        { titulo: "Linho descomplicado", pecas: ['t3', 'j1', 'sap_tenis', 'a1'], conceito: "Camisa linho + jeans + tênis. Casual sofisticado para o dia a dia." },
+        { titulo: "Areia + jeans", pecas: ['t7', 'j1', 'sap_tenis', 'a1', 'a2'], conceito: "Camisa areia oversized + jeans + cinto. Caimento Soft Natural." },
+        { titulo: "T-shirt curinga", pecas: ['t5', 'c5', 'sap_tenis', 'a1'], conceito: "T-shirt marrom + calça cenoura. Cor da paleta sem esforço." },
+      ],
+      calor: [
+        { titulo: "Vestido leve", pecas: ['v4', 'sap_sandalia', 'a1'], conceito: "Vestido bege quente. Máximo conforto, mínima decisão." },
+        { titulo: "Manga ampla casual", pecas: ['t8', 'j1', 'sap_sandalia', 'a1'], conceito: "Blusa fluida + jeans + sandália. Verão sem esforço." },
+      ],
+      chuva: [
+        { titulo: "Jeans + bota", pecas: ['t5', 'j2', 'sap_bota', 'a1'], conceito: "T-shirt + jeans escuro + bota. Casual que enfrenta a chuva." },
+      ],
+    },
+    casual: {
+      frio: [
+        { titulo: "Tricô conforto", pecas: ['tr2', 'j1', 'sap_tenis', 'a1'], conceito: "Tricô oversized creme + jeans. Aconchego elegante." },
+      ],
+      ameno: [
+        { titulo: "T-shirt + jeans", pecas: ['t5', 'j1', 'sap_tenis', 'a1'], conceito: "Combo essencial: t-shirt marrom + jeans wide + tênis." },
+      ],
+      calor: [
+        { titulo: "Vestido casual", pecas: ['v4', 'sap_sandalia', 'a1'], conceito: "Vestido bege quente. Zero esforço — máxima imagem." },
+      ],
+    },
+    formal: {
+      frio: [
+        { titulo: "Sofisticado pessoal", pecas: ['tr1', 'c1', 'sap_mocassim', 'a1', 'a2'], conceito: "Tricô camel + calça bege + cinto. Para compromissos pessoais que pedem presença." },
+      ],
+      ameno: [
+        { titulo: "Vestido + acessório", pecas: ['v3', 'sap_mocassim', 'a1', 'a2'], conceito: "Vestido marrom V + cinto + bolsa. Soft Natural ocasional." },
+      ],
+    },
+  },
+  passeio: {
+    casual: {
+      frio: [
+        { titulo: "Café aconchego", pecas: ['tr2', 'j1', 'sap_tenis', 'a1'], conceito: "Tricô oversized + jeans + tênis. Domingo de café e parque." },
+        { titulo: "Cardigan praça", pecas: ['tr3', 't5', 'j1', 'sap_tenis', 'a1'], conceito: "Cardigan sálvia + t-shirt + jeans. Camadas para o dia inteiro." },
+      ],
+      ameno: [
+        { titulo: "Praça relaxada", pecas: ['t5', 'j1', 'sap_tenis', 'a1'], conceito: "T-shirt marrom + jeans wide + tênis. Caminhada sem esforço." },
+        { titulo: "Linho passeio", pecas: ['t3', 'j1', 'sap_tenis', 'a1'], conceito: "Camisa linho + jeans + tênis. Frescor para passeio longo." },
+        { titulo: "Areia descomplicada", pecas: ['t7', 'j2', 'sap_tenis', 'a1'], conceito: "Camisa areia + jeans escuro. Movimento durante o dia." },
+      ],
+      calor: [
+        { titulo: "Vestido praça", pecas: ['v4', 'sap_sandalia', 'a1'], conceito: "Vestido bege quente + sandália. Dia inteiro fora sem decidir nada." },
+        { titulo: "Manga ampla verão", pecas: ['t8', 'j1', 'sap_sandalia', 'a1'], conceito: "Blusa fluida + jeans + sandália. Vento e movimento." },
+        { titulo: "Vestido oliva", pecas: ['v2', 'sap_sandalia', 'a1'], conceito: "Vestido midi oliva. Conforto que parece intencional." },
+      ],
+      chuva: [
+        { titulo: "Bota domingo", pecas: ['tr2', 'j2', 'sap_bota', 'a1'], conceito: "Tricô + jeans escuro + bota. Passeio mesmo na chuva." },
+      ],
+    },
+    medio: {
+      ameno: [
+        { titulo: "Linho + jeans", pecas: ['t3', 'j1', 'sap_tenis', 'a1', 'a2'], conceito: "Camisa linho + jeans wide + cinto. Mais elaborado que casual puro." },
+      ],
+      frio: [
+        { titulo: "Tricô V passeio", pecas: ['tr1', 'j1', 'sap_tenis', 'a1'], conceito: "Tricô camel + jeans + tênis. Aconchego com presença." },
+      ],
+      calor: [
+        { titulo: "Vestido + acessório", pecas: ['v4', 'sap_sandalia', 'a1', 'a2'], conceito: "Vestido bege + cinto + sandália. Passeio que vale ser fotografado." },
+      ],
+    },
+  },
+  academia: {
+    casual: {
+      frio: [
+        { titulo: "Treino frio", pecas: ['top_treino', 'legg_treino', 'jaq_treino', 'ten_treino'], conceito: "Top + legging preta + jaqueta corta-vento. Aquecimento e conforto." },
+        { titulo: "Conjunto oliva", pecas: ['top_treino_oliva', 'legg_oliva', 'jaq_treino', 'ten_treino'], conceito: "Conjunto oliva + corta-vento. Paleta consistente também na academia." },
+      ],
+      ameno: [
+        { titulo: "Treino base", pecas: ['top_treino', 'legg_treino', 'ten_treino'], conceito: "Top neutro + legging cintura alta + tênis. Foco no movimento." },
+        { titulo: "Verde no treino", pecas: ['top_treino_oliva', 'legg_oliva', 'ten_treino'], conceito: "Conjunto oliva. Paleta Outono Suave que vai junto pra academia." },
+        { titulo: "Mix neutro", pecas: ['top_treino_oliva', 'legg_treino', 'ten_treino'], conceito: "Top oliva + legging preta + tênis. Combinação que respira." },
+      ],
+      calor: [
+        { titulo: "Treino verão", pecas: ['top_treino', 'legg_treino', 'ten_treino'], conceito: "Top + legging respirável. Para treinar com calor." },
+        { titulo: "Oliva calor", pecas: ['top_treino_oliva', 'legg_oliva', 'ten_treino'], conceito: "Conjunto oliva fresco. Tons que disfarçam suor." },
+      ],
+      chuva: [
+        { titulo: "Corta-vento treino", pecas: ['top_treino', 'legg_treino', 'jaq_treino', 'ten_treino'], conceito: "Conjunto + jaqueta corta-vento. Sai e volta seca." },
+      ],
+    },
+  },
+};
+
+function lookFallback(ocasiao) {
+  const fallbacks = {
+    trabalho: { titulo: "Look essencial", pecas: ['ter1', 't6', 'c1', 'sap_mocassim', 'a1', 'a2'], conceito: "Combinação curinga: blazer bege + creme + bege + cinto. Funciona em qualquer dia." },
+    reuniao: { titulo: "Wrap dress curinga", pecas: ['v1', 'sap_mocassim', 'a1', 'a2'], conceito: "Vestido envelope terracota + cinto. Resolve qualquer reunião." },
+    pessoal: { titulo: "Combo curinga", pecas: ['t5', 'j1', 'sap_tenis', 'a1'], conceito: "T-shirt marrom + jeans + tênis. Funciona sempre." },
+    passeio: { titulo: "Passeio essencial", pecas: ['t3', 'j1', 'sap_tenis', 'a1'], conceito: "Camisa linho + jeans + tênis. Casual sofisticado universal." },
+    academia: { titulo: "Treino base", pecas: ['top_treino', 'legg_treino', 'ten_treino'], conceito: "Top + legging + tênis. O essencial." },
+  };
+  return fallbacks[ocasiao] || fallbacks.pessoal;
+}
+
+// ============ ESTADO ============
+let estadoAtual = {
+  ocasiao: null,
+  clima: 'ameno',
+  estilo: 'medio',
+  lookAtual: null,
+  ultimoLook: null,
+  pecaEditando: null,
+};
+
+const NOMES_OCASIAO = { trabalho: 'Trabalho', reuniao: 'Reunião', pessoal: 'Pessoal', passeio: 'Passeio', academia: 'Academia' };
+const NOMES_CLIMA = { frio: 'Frio', ameno: 'Ameno', calor: 'Calor', chuva: 'Chuva' };
+const NOMES_ESTILO = { formal: 'Mais formal', medio: 'Equilibrado', casual: 'Mais casual' };
+
+// ============ INDEXEDDB (storage de fotos) ============
+let db;
+const DB_NAME = 'closet_db';
+const STORE_NAME = 'fotos';
+
+function abrirDB() {
+  return new Promise((resolve, reject) => {
+    // Verifica se IndexedDB existe (alguns navegadores embutidos não têm)
+    if (typeof indexedDB === 'undefined') {
+      console.warn('IndexedDB indisponível, usando fallback localStorage');
+      db = null; // marca para usar localStorage
+      resolve(null);
+      return;
+    }
+    try {
+      const req = indexedDB.open(DB_NAME, 1);
+      req.onerror = () => {
+        console.warn('Erro IndexedDB, usando fallback:', req.error);
+        db = null;
+        resolve(null);
+      };
+      req.onsuccess = () => { db = req.result; resolve(db); };
+      req.onupgradeneeded = (e) => {
+        const database = e.target.result;
+        if (!database.objectStoreNames.contains(STORE_NAME)) {
+          database.createObjectStore(STORE_NAME, { keyPath: 'id' });
+        }
+      };
+    } catch (e) {
+      console.warn('IndexedDB falhou, usando fallback:', e);
+      db = null;
+      resolve(null);
+    }
+  });
+}
+
+function salvarFoto(idPeca, dataUrl) {
+  return new Promise((resolve, reject) => {
+    if (!db) {
+      // Fallback localStorage (limitado, ~5MB total)
+      try {
+        const fotos = JSON.parse(localStorage.getItem('closet_fotos_fallback') || '{}');
+        fotos[idPeca] = dataUrl;
+        localStorage.setItem('closet_fotos_fallback', JSON.stringify(fotos));
+        resolve();
+      } catch (e) {
+        reject(new Error('Sem espaço para salvar — abra no Safari para usar IndexedDB'));
+      }
+      return;
+    }
+    const tx = db.transaction(STORE_NAME, 'readwrite');
+    const store = tx.objectStore(STORE_NAME);
+    const req = store.put({ id: idPeca, dataUrl: dataUrl, salvoEm: Date.now() });
+    req.onsuccess = () => resolve();
+    req.onerror = () => reject(req.error);
+  });
+}
+
+function obterFoto(idPeca) {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, 'readonly');
+    const store = tx.objectStore(STORE_NAME);
+    const req = store.get(idPeca);
+    req.onsuccess = () => resolve(req.result ? req.result.dataUrl : null);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+function obterTodasFotos() {
+  return new Promise((resolve, reject) => {
+    if (!db) {
+      try {
+        resolve(JSON.parse(localStorage.getItem('closet_fotos_fallback') || '{}'));
+      } catch (e) { resolve({}); }
+      return;
+    }
+    const tx = db.transaction(STORE_NAME, 'readonly');
+    const store = tx.objectStore(STORE_NAME);
+    const req = store.getAll();
+    req.onsuccess = () => {
+      const map = {};
+      (req.result || []).forEach(f => { map[f.id] = f.dataUrl; });
+      resolve(map);
+    };
+    req.onerror = () => reject(req.error);
+  });
+}
+
+function removerFoto(idPeca) {
+  return new Promise((resolve, reject) => {
+    if (!db) {
+      try {
+        const fotos = JSON.parse(localStorage.getItem('closet_fotos_fallback') || '{}');
+        delete fotos[idPeca];
+        localStorage.setItem('closet_fotos_fallback', JSON.stringify(fotos));
+        resolve();
+      } catch (e) { reject(e); }
+      return;
+    }
+    const tx = db.transaction(STORE_NAME, 'readwrite');
+    const store = tx.objectStore(STORE_NAME);
+    const req = store.delete(idPeca);
+    req.onsuccess = () => resolve();
+    req.onerror = () => reject(req.error);
+  });
+}
+
+// Cache de fotos em memória para velocidade
+let cacheFotos = {};
+
+async function carregarCacheFotos() {
+  cacheFotos = await obterTodasFotos();
+  atualizarStats();
+}
+
+function atualizarStats() {
+  const comFoto = Object.keys(cacheFotos).length;
+  const semFoto = TOTAL_PECAS - comFoto;
+  const elStat = document.getElementById('stat-fotos');
+  if (elStat) elStat.textContent = `${comFoto}/${TOTAL_PECAS}`;
+  const elTotal = document.getElementById('stat-total');
+  if (elTotal) elTotal.textContent = comFoto;
+  const elRest = document.getElementById('stat-restante');
+  if (elRest) elRest.textContent = semFoto;
+}
+
+// ============ COMPRIMIR IMAGEM (limita tamanho) ============
+function comprimirImagem(file, maxLargura = 800, qualidade = 0.85) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let largura = img.width;
+        let altura = img.height;
+        if (largura > maxLargura) {
+          altura = (altura * maxLargura) / largura;
+          largura = maxLargura;
+        }
+        canvas.width = largura;
+        canvas.height = altura;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, largura, altura);
+        const dataUrl = canvas.toDataURL('image/jpeg', qualidade);
+        resolve(dataUrl);
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// ============ NAVEGAÇÃO ============
+function mostrarTela(id) {
+  document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
+  document.getElementById(id).classList.add('ativa');
+  window.scrollTo(0, 0);
+  document.getElementById(id).scrollTo(0, 0);
+}
+
+function selecionarOcasiao(ocasiao) {
+  estadoAtual.ocasiao = ocasiao;
+  document.getElementById('filtros-ocasiao-label').textContent = NOMES_OCASIAO[ocasiao];
+  if (ocasiao === 'academia') estadoAtual.estilo = 'casual';
+  mostrarTela('tela-filtros');
+}
+
+function voltarHome() { mostrarTela('tela-home'); }
+function voltarFiltros() { mostrarTela('tela-filtros'); }
+function voltarCloset() { mostrarTela('tela-closet'); renderCloset(); }
+
+function abrirFavoritos() {
+  renderFavoritos();
+  mostrarTela('tela-favoritos');
+}
+
+function abrirCloset() {
+  renderCloset();
+  mostrarTela('tela-closet');
+}
+
+// ============ FILTROS ============
+document.querySelectorAll('.filtro-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const filtro = chip.dataset.filtro;
+    const valor = chip.dataset.valor;
+    document.querySelectorAll(`.filtro-chip[data-filtro="${filtro}"]`).forEach(c => c.classList.remove('selecionado'));
+    chip.classList.add('selecionado');
+    estadoAtual[filtro] = valor;
+  });
+});
+
+function pularFiltros() {
+  estadoAtual.clima = 'ameno';
+  estadoAtual.estilo = 'medio';
+  gerarLook();
+}
+
+// ============ GERAR LOOK ============
+function gerarLook() {
+  const { ocasiao, clima, estilo } = estadoAtual;
+  let looksDisponiveis = [];
+  const dadosOcasiao = LOOKS[ocasiao];
+  if (dadosOcasiao) {
+    if (dadosOcasiao[estilo] && dadosOcasiao[estilo][clima]) {
+      looksDisponiveis = dadosOcasiao[estilo][clima];
+    }
+    if (looksDisponiveis.length === 0 && dadosOcasiao[estilo]) {
+      Object.values(dadosOcasiao[estilo]).forEach(arr => looksDisponiveis.push(...arr));
+    }
+    if (looksDisponiveis.length === 0) {
+      Object.values(dadosOcasiao).forEach(estiloDados => {
+        Object.values(estiloDados).forEach(arr => looksDisponiveis.push(...arr));
+      });
+    }
+  }
+  if (looksDisponiveis.length === 0) looksDisponiveis = [lookFallback(ocasiao)];
+
+  let look;
+  if (looksDisponiveis.length > 1 && estadoAtual.ultimoLook) {
+    const opcoes = looksDisponiveis.filter(l => l.titulo !== estadoAtual.ultimoLook);
+    look = opcoes[Math.floor(Math.random() * opcoes.length)];
+  } else {
+    look = looksDisponiveis[Math.floor(Math.random() * looksDisponiveis.length)];
+  }
+  estadoAtual.ultimoLook = look.titulo;
+  estadoAtual.lookAtual = look;
+  renderLook(look);
+  mostrarTela('tela-look');
+}
+
+// ============ RENDERIZAR LOOK ============
+function renderLook(look) {
+  document.getElementById('look-ocasiao').textContent = NOMES_OCASIAO[estadoAtual.ocasiao];
+  document.getElementById('look-titulo').innerHTML = look.titulo.replace(/(\w+)$/, '<em>$1</em>');
+  document.getElementById('look-meta').textContent = `${NOMES_CLIMA[estadoAtual.clima]} • ${NOMES_ESTILO[estadoAtual.estilo]}`;
+  document.getElementById('look-conceito').textContent = look.conceito;
+
+  const container = document.getElementById('look-pecas');
+  container.innerHTML = '';
+
+  look.pecas.forEach(pecaId => {
+    const peca = PECAS[pecaId];
+    if (!peca) return;
+    container.appendChild(criarPecaElement(pecaId, peca));
+  });
+
+  const btnFav = document.getElementById('btn-favoritar');
+  const favoritos = obterFavoritos();
+  const jaSalvo = favoritos.some(f => f.titulo === look.titulo && f.ocasiao === estadoAtual.ocasiao);
+  if (jaSalvo) {
+    btnFav.classList.add('salvo');
+    btnFav.innerHTML = '♥ Salvo';
+  } else {
+    btnFav.classList.remove('salvo');
+    btnFav.innerHTML = '♡ Salvar';
+  }
+}
+
+function criarPecaElement(pecaId, peca) {
+  const div = document.createElement('div');
+  div.className = 'peca';
+  div.style.cursor = 'pointer';
+  div.onclick = () => abrirPeca(pecaId);
+
+  const ancoraMarker = peca.ancora ? '<div class="ancora-marker">★</div>' : '';
+  const fotoSalva = cacheFotos[pecaId];
+  const visualConteudo = fotoSalva
+    ? `<img src="${fotoSalva}" alt="${peca.nome}">`
+    : gerarSilhuetaSVG(peca.tipo, peca.cor);
+  const visualClass = fotoSalva ? 'peca-visual com-foto' : 'peca-visual';
+  const visualBg = fotoSalva ? '' : `style="background: ${peca.cor};"`;
+
+  div.innerHTML = `
+    <div class="${visualClass}" ${visualBg}>
+      ${ancoraMarker}
+      ${visualConteudo}
+    </div>
+    <div class="peca-info">
+      <div class="peca-categoria">${peca.cat}</div>
+      <div class="peca-nome">${peca.nome}</div>
+      <div class="peca-marca"><strong>${peca.marca}</strong></div>
+    </div>
+    <a href="${peca.link}" target="_blank" class="peca-link" onclick="event.stopPropagation()" aria-label="Ver na SHEIN">↗</a>
+  `;
+  return div;
+}
+
+// ============ MEU CLOSET ============
+function renderCloset() {
+  atualizarStats();
+  const container = document.getElementById('closet-conteudo');
+  container.innerHTML = '';
+
+  // Agrupar peças por categoria
+  const categorias = {};
+  Object.entries(PECAS).forEach(([id, peca]) => {
+    if (!categorias[peca.cat]) categorias[peca.cat] = [];
+    categorias[peca.cat].push({ id, ...peca });
+  });
+
+  Object.entries(categorias).forEach(([cat, pecas]) => {
+    const titulo = document.createElement('h3');
+    titulo.className = 'closet-categoria-titulo';
+    const comFoto = pecas.filter(p => cacheFotos[p.id]).length;
+    titulo.innerHTML = `${cat} <span>${comFoto} de ${pecas.length}</span>`;
+    container.appendChild(titulo);
+
+    const grid = document.createElement('div');
+    grid.className = 'closet-grid';
+
+    pecas.forEach(peca => {
+      const item = document.createElement('div');
+      item.className = 'closet-item';
+      item.style.background = peca.cor;
+      item.onclick = () => abrirPeca(peca.id);
+
+      const fotoSalva = cacheFotos[peca.id];
+      if (fotoSalva) {
+        item.innerHTML = `<img src="${fotoSalva}" alt="${peca.nome}">`;
+      } else {
+        item.innerHTML = `${gerarSilhuetaSVG(peca.tipo, peca.cor)}<div class="sem-foto-overlay">📸</div>`;
+      }
+
+      grid.appendChild(item);
+    });
+
+    container.appendChild(grid);
+  });
+}
+
+// ============ ABRIR PEÇA (tela detalhe) ============
+function abrirPeca(pecaId) {
+  estadoAtual.pecaEditando = pecaId;
+  const peca = PECAS[pecaId];
+  const fotoSalva = cacheFotos[pecaId];
+
+  const container = document.getElementById('peca-detalhe-conteudo');
+
+  let visualHTML;
+  if (fotoSalva) {
+    visualHTML = `<div class="peca-detalhe-foto"><img src="${fotoSalva}" alt="${peca.nome}"></div>`;
+  } else {
+    visualHTML = `<div class="upload-zone" onclick="document.getElementById('upload-input').click()">
+      <div class="upload-zone-icone">📸</div>
+      <div class="upload-zone-texto">Adicionar foto</div>
+      <div class="upload-zone-desc">Tira uma foto da peça ou escolhe da galeria</div>
+    </div>`;
+  }
+
+  const acoesHTML = fotoSalva
+    ? `<button class="botao-principal" onclick="document.getElementById('upload-input').click()">Trocar foto</button>
+       <button class="botao-secundario" onclick="apagarFoto()" style="color: var(--bordo);">Remover foto</button>
+       <a href="${peca.link}" target="_blank" class="botao-secundario" style="text-decoration: none; display: block; text-align: center;">Ver na SHEIN ↗</a>`
+    : `<a href="${peca.link}" target="_blank" class="botao-secundario" style="text-decoration: none; display: block; text-align: center;">Ver na SHEIN ↗</a>`;
+
+  container.innerHTML = `
+    ${visualHTML}
+    <div class="peca-detalhe-info">
+      <div class="peca-detalhe-categoria">${peca.cat}${peca.ancora ? ' • ★ Peça-âncora' : ''}</div>
+      <div class="peca-detalhe-nome">${peca.nome}</div>
+      <div class="peca-detalhe-marca">Marca: <strong>${peca.marca}</strong></div>
+    </div>
+    <div class="acoes-peca">${acoesHTML}</div>
+  `;
+
+  mostrarTela('tela-peca');
+}
+
+// ============ UPLOAD DE FOTO ============
+async function processarUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith('image/')) {
+    mostrarToast('Arquivo precisa ser uma imagem');
+    return;
+  }
+
+  try {
+    mostrarToast('Processando foto...');
+    const dataUrl = await comprimirImagem(file);
+    await salvarFoto(estadoAtual.pecaEditando, dataUrl);
+    cacheFotos[estadoAtual.pecaEditando] = dataUrl;
+    mostrarToast('Foto adicionada');
+    abrirPeca(estadoAtual.pecaEditando);
+    atualizarStats();
+  } catch (e) {
+    mostrarToast('Erro ao salvar foto');
+    console.error(e);
+  }
+
+  event.target.value = '';
+}
+
+async function apagarFoto() {
+  if (!confirm('Remover a foto desta peça?')) return;
+  try {
+    await removerFoto(estadoAtual.pecaEditando);
+    delete cacheFotos[estadoAtual.pecaEditando];
+    mostrarToast('Foto removida');
+    abrirPeca(estadoAtual.pecaEditando);
+    atualizarStats();
+  } catch (e) {
+    mostrarToast('Erro ao remover');
+  }
+}
+
+// ============ SILHUETAS ============
+function gerarSilhuetaSVG(tipo, cor) {
+  const corClara = ajustarCor(cor, 20);
+  const stroke = '#3D2817';
+
+  const svgs = {
+    blusa: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <polygon points="20,15 25,8 75,8 80,15 85,120 15,120" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <polygon points="42,8 58,8 50,32" fill="rgba(250,246,240,0.9)"/>
+    </svg>`,
+    camisa: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <polygon points="20,12 25,8 75,8 80,12 85,120 15,120" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <line x1="50" y1="12" x2="50" y2="120" stroke="${stroke}" stroke-width="0.4"/>
+    </svg>`,
+    tshirt: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <polygon points="22,18 30,12 70,12 78,18 85,80 78,82 80,120 20,120 22,82 15,80" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <polygon points="42,12 58,12 50,28" fill="rgba(250,246,240,0.9)"/>
+    </svg>`,
+    calca: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <rect x="32" y="15" width="36" height="6" fill="${ajustarCor(cor, -20)}" stroke="${stroke}" stroke-width="0.4"/>
+      <polygon points="32,21 50,21 48,118 35,118" fill="${corClara}" stroke="${stroke}" stroke-width="0.4"/>
+      <polygon points="50,21 68,21 65,118 52,118" fill="${corClara}" stroke="${stroke}" stroke-width="0.4"/>
+    </svg>`,
+    pantalona: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <rect x="30" y="15" width="40" height="6" fill="${ajustarCor(cor, -20)}" stroke="${stroke}" stroke-width="0.4"/>
+      <polygon points="30,21 50,21 38,118 18,118" fill="${corClara}" stroke="${stroke}" stroke-width="0.4"/>
+      <polygon points="50,21 70,21 82,118 62,118" fill="${corClara}" stroke="${stroke}" stroke-width="0.4"/>
+    </svg>`,
+    jeans: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <rect x="30" y="15" width="40" height="6" fill="${ajustarCor(cor, -25)}" stroke="${stroke}" stroke-width="0.4"/>
+      <polygon points="30,21 50,21 38,118 18,118" fill="${corClara}" stroke="${stroke}" stroke-width="0.4"/>
+      <polygon points="50,21 70,21 82,118 62,118" fill="${corClara}" stroke="${stroke}" stroke-width="0.4"/>
+      <line x1="40" y1="30" x2="40" y2="115" stroke="${ajustarCor(cor, -20)}" stroke-width="0.3"/>
+      <line x1="60" y1="30" x2="60" y2="115" stroke="${ajustarCor(cor, -20)}" stroke-width="0.3"/>
+    </svg>`,
+    legging: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <rect x="35" y="15" width="30" height="5" fill="${ajustarCor(cor, -20)}"/>
+      <polygon points="35,20 50,20 48,118 38,118" fill="${corClara}" stroke="${stroke}" stroke-width="0.4"/>
+      <polygon points="50,20 65,20 62,118 52,118" fill="${corClara}" stroke="${stroke}" stroke-width="0.4"/>
+    </svg>`,
+    vestido: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <polygon points="32,12 30,55 70,55 68,12" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <polygon points="30,55 18,118 82,118 70,55" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <polygon points="40,12 60,12 50,52" fill="rgba(250,246,240,0.9)"/>
+      <line x1="32" y1="58" x2="68" y2="50" stroke="${stroke}" stroke-width="0.4"/>
+    </svg>`,
+    blazer: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <polygon points="20,12 25,8 75,8 80,12 88,118 12,118" fill="${corClara}" stroke="${stroke}" stroke-width="0.6"/>
+      <polygon points="50,8 38,55 48,60" fill="rgba(250,246,240,0.9)"/>
+      <polygon points="50,8 62,55 52,60" fill="rgba(250,246,240,0.9)"/>
+      <circle cx="51" cy="70" r="1.2" fill="${stroke}"/>
+      <circle cx="51" cy="85" r="1.2" fill="${stroke}"/>
+    </svg>`,
+    kimono: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <polygon points="15,15 25,8 75,8 85,15 92,118 8,118" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <polygon points="50,8 30,80 50,90" fill="${cor}" stroke="${stroke}" stroke-width="0.4"/>
+      <polygon points="50,8 70,80 50,90" fill="${cor}" stroke="${stroke}" stroke-width="0.4"/>
+      <rect x="12" y="65" width="76" height="3" fill="${stroke}"/>
+    </svg>`,
+    camisaLonga: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <polygon points="20,12 25,8 50,8 50,118 12,118" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <polygon points="50,8 75,8 80,12 88,118 50,118" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <line x1="50" y1="8" x2="50" y2="118" stroke="${stroke}" stroke-width="0.5"/>
+    </svg>`,
+    trico: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <polygon points="18,18 25,10 75,10 82,18 88,118 12,118" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <polygon points="42,10 58,10 50,38" fill="rgba(250,246,240,0.9)"/>
+      <line x1="35" y1="50" x2="35" y2="115" stroke="${stroke}" stroke-width="0.2" stroke-dasharray="2,2"/>
+      <line x1="50" y1="50" x2="50" y2="115" stroke="${stroke}" stroke-width="0.2" stroke-dasharray="2,2"/>
+      <line x1="65" y1="50" x2="65" y2="115" stroke="${stroke}" stroke-width="0.2" stroke-dasharray="2,2"/>
+    </svg>`,
+    cardigan: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <polygon points="18,12 25,8 50,8 50,118 12,118" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <polygon points="50,8 75,8 82,12 88,118 50,118" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <line x1="30" y1="20" x2="30" y2="115" stroke="${stroke}" stroke-width="0.2" stroke-dasharray="2,2"/>
+      <line x1="70" y1="20" x2="70" y2="115" stroke="${stroke}" stroke-width="0.2" stroke-dasharray="2,2"/>
+    </svg>`,
+    bolsa: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <rect x="25" y="50" width="50" height="50" fill="${corClara}" stroke="${stroke}" stroke-width="0.6" rx="4"/>
+      <path d="M 35,50 Q 35,28 50,28 Q 65,28 65,50" fill="none" stroke="${stroke}" stroke-width="1"/>
+      <rect x="48" y="68" width="4" height="6" fill="${stroke}"/>
+    </svg>`,
+    cinto: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <rect x="10" y="60" width="65" height="20" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <rect x="75" y="55" width="15" height="30" fill="${ajustarCor(cor, 30)}" stroke="${stroke}" stroke-width="0.5"/>
+      <rect x="80" y="65" width="5" height="10" fill="rgba(250,246,240,0.9)"/>
+    </svg>`,
+    sapato: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <polygon points="15,75 85,75 80,85 50,90 40,82 20,82" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <rect x="13" y="85" width="74" height="6" fill="${stroke}"/>
+    </svg>`,
+    tenis: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <rect x="13" y="78" width="74" height="8" fill="${stroke}"/>
+      <polygon points="15,78 85,78 80,68 50,65 40,72 20,70" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <line x1="50" y1="68" x2="65" y2="73" stroke="${stroke}" stroke-width="0.3"/>
+      <line x1="50" y1="72" x2="65" y2="76" stroke="${stroke}" stroke-width="0.3"/>
+    </svg>`,
+    bota: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <rect x="35" y="40" width="30" height="42" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <polygon points="35,82 65,82 75,92 75,98 35,98" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <rect x="45" y="98" width="10" height="6" fill="${stroke}"/>
+    </svg>`,
+    sandalia: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <polygon points="15,80 85,80 80,84 20,84" fill="${corClara}" stroke="${stroke}" stroke-width="0.4"/>
+      <polygon points="35,84 65,84 60,68 40,68" fill="${corClara}" stroke="${stroke}" stroke-width="0.4"/>
+      <rect x="70" y="60" width="12" height="22" fill="${corClara}" stroke="${stroke}" stroke-width="0.4"/>
+    </svg>`,
+    topesportivo: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <polygon points="28,25 32,18 68,18 72,25 75,75 25,75" fill="${corClara}" stroke="${stroke}" stroke-width="0.5"/>
+      <polygon points="40,18 60,18 50,38" fill="rgba(250,246,240,0.9)"/>
+    </svg>`,
+    jaquetaTreino: `<svg viewBox="0 0 100 130" preserveAspectRatio="xMidYMid slice">
+      <polygon points="20,15 25,8 75,8 80,15 85,100 15,100" fill="${corClara}" stroke="${stroke}" stroke-width="0.6"/>
+      <line x1="50" y1="8" x2="50" y2="100" stroke="${stroke}" stroke-width="0.5"/>
+      <rect x="48" y="40" width="4" height="6" fill="${ajustarCor(cor, 30)}"/>
+    </svg>`,
+  };
+
+  return svgs[tipo] || svgs.blusa;
+}
+
+function ajustarCor(hex, percent) {
+  const num = parseInt(hex.replace('#', ''), 16);
+  const r = Math.max(0, Math.min(255, ((num >> 16) & 0xff) + percent));
+  const g = Math.max(0, Math.min(255, ((num >> 8) & 0xff) + percent));
+  const b = Math.max(0, Math.min(255, (num & 0xff) + percent));
+  return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+}
+
+// ============ FAVORITOS ============
+function obterFavoritos() {
+  try { return JSON.parse(localStorage.getItem('closet_favoritos') || '[]'); }
+  catch (e) { return []; }
+}
+
+function salvarFavoritos(lista) {
+  try { localStorage.setItem('closet_favoritos', JSON.stringify(lista)); }
+  catch (e) {}
+}
+
+function salvarLook() {
+  if (!estadoAtual.lookAtual) return;
+  const favoritos = obterFavoritos();
+  const novoFav = {
+    titulo: estadoAtual.lookAtual.titulo,
+    pecas: estadoAtual.lookAtual.pecas,
+    conceito: estadoAtual.lookAtual.conceito,
+    ocasiao: estadoAtual.ocasiao,
+    clima: estadoAtual.clima,
+    estilo: estadoAtual.estilo,
+    salvoEm: new Date().toISOString(),
+  };
+  const indexExistente = favoritos.findIndex(f => f.titulo === novoFav.titulo && f.ocasiao === novoFav.ocasiao);
+  const btnFav = document.getElementById('btn-favoritar');
+
+  if (indexExistente >= 0) {
+    favoritos.splice(indexExistente, 1);
+    salvarFavoritos(favoritos);
+    btnFav.classList.remove('salvo');
+    btnFav.innerHTML = '♡ Salvar';
+    mostrarToast('Removido dos favoritos');
+  } else {
+    favoritos.unshift(novoFav);
+    salvarFavoritos(favoritos);
+    btnFav.classList.add('salvo');
+    btnFav.innerHTML = '♥ Salvo';
+    mostrarToast('Look salvo nos favoritos');
+  }
+}
+
+function renderFavoritos() {
+  const lista = obterFavoritos();
+  const container = document.getElementById('lista-favoritos');
+  if (lista.length === 0) {
+    container.innerHTML = `
+      <div class="vazio">
+        <div class="vazio-icon">♡</div>
+        <div class="vazio-titulo">Nenhum look salvo ainda</div>
+        <div class="vazio-desc">Gere um look e toque em "Salvar" para guardar aqui</div>
+      </div>
+    `;
+    return;
+  }
+  container.innerHTML = lista.map((fav, idx) => `
+    <div class="favorito-item" onclick="reabrirFavorito(${idx})">
+      <div>
+        <div class="favorito-titulo">${fav.titulo}</div>
+        <div class="favorito-meta">${NOMES_OCASIAO[fav.ocasiao]} • ${NOMES_CLIMA[fav.clima]}</div>
+      </div>
+      <button class="favorito-remover" onclick="event.stopPropagation(); removerFavorito(${idx})" aria-label="Remover">×</button>
+    </div>
+  `).join('');
+}
+
+function removerFavorito(idx) {
+  const lista = obterFavoritos();
+  lista.splice(idx, 1);
+  salvarFavoritos(lista);
+  renderFavoritos();
+  mostrarToast('Removido');
+}
+
+function reabrirFavorito(idx) {
+  const lista = obterFavoritos();
+  const fav = lista[idx];
+  estadoAtual.ocasiao = fav.ocasiao;
+  estadoAtual.clima = fav.clima;
+  estadoAtual.estilo = fav.estilo;
+  estadoAtual.lookAtual = { titulo: fav.titulo, pecas: fav.pecas, conceito: fav.conceito };
+  renderLook(estadoAtual.lookAtual);
+  mostrarTela('tela-look');
+}
+
+// ============ TOAST ============
+let toastTimeout;
+function mostrarToast(mensagem) {
+  const toast = document.getElementById('toast');
+  toast.textContent = mensagem;
+  toast.classList.add('visivel');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => toast.classList.remove('visivel'), 2200);
+}
+
+// ============ SAUDAÇÃO ============
+function atualizarSaudacao() {
+  const agora = new Date();
+  const hora = agora.getHours();
+  let saudacao = 'Boa noite';
+  if (hora >= 5 && hora < 12) saudacao = 'Bom dia';
+  else if (hora >= 12 && hora < 18) saudacao = 'Boa tarde';
+  document.getElementById('saudacao-eyebrow').textContent = saudacao;
+  const opts = { weekday: 'long', day: 'numeric', month: 'long' };
+  let dataStr = agora.toLocaleDateString('pt-BR', opts);
+  dataStr = dataStr.charAt(0).toUpperCase() + dataStr.slice(1);
+  document.getElementById('data-hoje').textContent = dataStr;
+}
+
+// ============ INSTALAR PWA ============
+let promptInstalar;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  promptInstalar = e;
+  if (!localStorage.getItem('install_dismissed')) {
+    document.getElementById('install-banner').classList.add('visivel');
+  }
+});
+
+function instalarApp() {
+  if (promptInstalar) {
+    promptInstalar.prompt();
+    promptInstalar.userChoice.then(() => {
+      promptInstalar = null;
+      document.getElementById('install-banner').classList.remove('visivel');
+    });
+  }
+}
+
+function fecharBanner() {
+  document.getElementById('install-banner').classList.remove('visivel');
+  localStorage.setItem('install_dismissed', '1');
+}
+
+// ============ SERVICE WORKER ============
+if ('serviceWorker' in navigator) {
+  const swCode = `
+    const CACHE = 'closet-v2';
+    self.addEventListener('install', e => {
+      e.waitUntil(caches.open(CACHE).then(c => c.addAll(['./'])));
+      self.skipWaiting();
+    });
+    self.addEventListener('activate', e => self.clients.claim());
+    self.addEventListener('fetch', e => {
+      e.respondWith(
+        caches.match(e.request).then(r => r || fetch(e.request).then(resp => {
+          if (resp.ok && e.request.method === 'GET') {
+            const clone = resp.clone();
+            caches.open(CACHE).then(c => c.put(e.request, clone));
+          }
+          return resp;
+        }).catch(() => caches.match('./')))
+      );
+    });
+  `;
+  const blob = new Blob([swCode], { type: 'application/javascript' });
+  const swUrl = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swUrl).catch(() => {});
+}
+
+// ============ INICIALIZAR ============
+(async function init() {
+  atualizarSaudacao();
+  try {
+    await abrirDB();
+    await carregarCacheFotos();
+  } catch (e) {
+    console.error('Erro ao iniciar IndexedDB:', e);
+  }
+})();
+</script>
+
+
+
+</body></html>
