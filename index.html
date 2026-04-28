@@ -991,28 +991,34 @@
 <div id="toast" class="toast">Look salvo</div>
 
 <script>
-  // SONDA TEMPORÁRIA - APAGAR DEPOIS
+// ===== BLINDAGEM ANTI-ITP SAFARI =====
 window.addEventListener('load', async () => {
-  try {
-    const req = indexedDB.open('closet-db'); // troca pelo nome real do DB se for outro
-    req.onsuccess = (e) => {
-      const db = e.target.result;
-      const stores = Array.from(db.objectStoreNames);
-      if (stores.length === 0) {
-        alert('SONDA: DB existe mas SEM object stores. Init nunca rodou direito.');
-        return;
+  // 1. Pede pro navegador NÃO deletar nossos dados
+  if (navigator.storage && navigator.storage.persist) {
+    try {
+      const jaPersistente = await navigator.storage.persisted();
+      if (!jaPersistente) {
+        const ok = await navigator.storage.persist();
+        console.log('Storage persistente:', ok ? 'OK' : 'negado');
       }
-      const tx = db.transaction(stores[0], 'readonly');
-      const store = tx.objectStore(stores[0]);
-      const countReq = store.count();
-      countReq.onsuccess = () => {
-        alert('SONDA: stores=' + stores.join(',') + ' | count=' + countReq.result);
-      };
-      countReq.onerror = (err) => alert('SONDA erro count: ' + err.target.error);
+    } catch(e) { console.warn('persist falhou:', e); }
+  }
+
+  // 2. Banner pra instalar como PWA (some o ITP)
+  const ehPWA = window.matchMedia('(display-mode: standalone)').matches
+             || window.navigator.standalone === true;
+  const dispensado = localStorage.getItem('pwa-banner-off');
+
+  if (!ehPWA && !dispensado) {
+    const b = document.createElement('div');
+    b.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;color:#fff;padding:14px 16px;text-align:center;font:14px Arial;z-index:99999;box-shadow:0 -2px 12px rgba(0,0,0,.4)';
+    b.innerHTML = '📲 <b>Instale na Tela de Início</b> pra não perder fotos<br><small style="opacity:.8">Compartilhar → Adicionar à Tela de Início</small> <span id="pwa-x" style="position:absolute;top:8px;right:12px;cursor:pointer;padding:4px 8px;font-size:18px">✕</span>';
+    document.body.appendChild(b);
+    document.getElementById('pwa-x').onclick = () => {
+      b.remove();
+      localStorage.setItem('pwa-banner-off','1');
     };
-    req.onerror = (e) => alert('SONDA erro abrir DB: ' + e.target.error);
-    req.onupgradeneeded = () => alert('SONDA: DB foi RECRIADO (estava vazio ou sumiu).');
-  } catch(e) { alert('SONDA exception: ' + e.message); }
+  }
 });
 // ============ CATÁLOGO DE PEÇAS ============
 const PECAS = {
