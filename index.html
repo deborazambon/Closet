@@ -963,7 +963,11 @@
   <h1 class="look-titulo">Meu <em>Closet</em></h1>
   <div class="look-meta" style="margin-bottom: 16px;">Toque em qualquer peça para adicionar foto</div>
 
-  <div class="closet-stats">
+  <div style="display:flex;gap:8px;margin-bottom:20px">
+    <button class="botao-secundario" onclick="exportarBackup()" style="flex:1;margin:0;font-size:11px">📤 Exportar backup</button>
+    <button class="botao-secundario" onclick="document.getElementById('import-input').click()" style="flex:1;margin:0;font-size:11px">📥 Importar</button>
+  </div>
+  <input type="file" id="import-input" accept="application/json" onchange="importarBackup(event)" style="display:none">
     <div class="closet-stat">
       <div class="closet-stat-num" id="stat-total">1</div>
       <div class="closet-stat-label">Com foto</div>
@@ -1354,6 +1358,13 @@ function salvarFoto(idPeca, dataUrl) {
 
 function obterFoto(idPeca) {
   return new Promise((resolve, reject) => {
+    if (!db) {
+      try {
+        const fotos = JSON.parse(localStorage.getItem('closet_fotos_fallback') || '{}');
+        resolve(fotos[idPeca] || null);
+      } catch(e) { resolve(null); }
+      return;
+    }
     const tx = db.transaction(STORE_NAME, 'readonly');
     const store = tx.objectStore(STORE_NAME);
     const req = store.get(idPeca);
@@ -1992,7 +2003,68 @@ if ('serviceWorker' in navigator) {
   const swUrl = URL.createObjectURL(blob);
   navigator.serviceWorker.register(swUrl).catch(() => {});
 }
+ // ============ EXPORT / IMPORT BACKUP ============
+async function exportarBackup() {
+  try {
+    mostrarToast('Gerando backup...');
+    const fotos = await obterTodasFotos();
+    const favoritos = obterFavoritos();
+    const backup = {
+      versao: 1,
+      app: 'closet-debora',
+      data: new Date().toISOString(),
+      totalFotos: Object.keys(fotos).length,
+      fotos: fotos,
+      favoritos: favoritos
+    };
+    const json = JSON.stringify(backup);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const dataStr = new Date().toISOString().slice(0,10);
+    a.href = url;
+    a.download = `closet-backup-${dataStr}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    mostrarToast(`Backup gerado: ${backup.totalFotos} fotos`);
+  } catch (e) {
+    alert('Erro ao exportar: ' + (e?.message || e));
+  }
+}
 
+async function importarBackup(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (!confirm('Importar backup? Vai SOBRESCREVER as fotos atuais com as do arquivo.')) {
+    event.target.value = '';
+    return;
+  }
+  try {
+    mostrarToast('Restaurando backup...');
+    const texto = await file.text();
+    const backup = JSON.parse(texto);
+    if (backup.app !== 'closet-debora') {
+      throw new Error('Arquivo não é backup deste app');
+    }
+    let restauradas = 0;
+    for (const [idPeca, dataUrl] of Object.entries(backup.fotos || {})) {
+      await salvarFoto(idPeca, dataUrl);
+      cacheFotos[idPeca] = dataUrl;
+      restauradas++;
+    }
+    if (Array.isArray(backup.favoritos)) {
+      salvarFavoritos(backup.favoritos);
+    }
+    atualizarStats();
+    renderCloset();
+    mostrarToast(`✅ ${restauradas} fotos restauradas`);
+  } catch (e) {
+    alert('Erro ao importar: ' + (e?.message || e));
+  }
+  event.target.value = '';
+}
 // ============ INICIALIZAR ============
 (async function init() {
   atualizarSaudacao();
